@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1 class="display-5">{% block title %}Home Page{% endblock %}</h1>
+{% endblock %}  
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        
+        <div class="col-sm">
+                <div class="card border-dark mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Categories: </div>
+                    <div class="card-body text-dark">
+                        <div class="list-group">
+                            {% for cat in categories %}
+                            <a class="list-group-item list-group-item-secondary" href='{{url_for('showCatalog', cat_name=cat.name ) }}'>
+                                {{ cat.name }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-sm">
+            {% if 'username' in session %}
+                <a href='{{ url_for('addItem')}}'>
+                    <button type="button" class="btn btn-success">Add Item</button> 
+                </a>
+            {% endif %}
+            <h2 >Last 10 items:</h1>
+            <div class="list-group">
+                {% for item in last_items %}
+                <a class="list-group-item list-group-item-action" href='{{url_for('showItem', cat_name=item.category.name, item_name=item.name ) }}'>
+                        {{ item.name }} ({{item.creation_time}})
+                    </a>
+                {% endfor %}
+            </div>
+        
+    </div>
+
+</div>
+{% endblock %}
